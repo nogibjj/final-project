@@ -8,3 +8,4 @@ dask
 dask[distributed]
 pandas
 pysqlite3
+typing

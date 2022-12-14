@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Request
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
+from typing import Union
 import uvicorn
 from mylib.logic import filter_by,query_all,query_specific,order_by
 from mylib.connectDB import *
@@ -11,12 +12,12 @@ CAT = ""
 NAME = ""
 
 @app.get("/", response_class=HTMLResponse)
-async def root(request: Request):
+async def Homepage(request: Request):
     return templates.TemplateResponse("homepage.html",{"request":request})
 
 #Get the complete pokedex
 @app.get("/all", response_class=HTMLResponse)
-async def queryAll(request: Request):
+async def Complete_Pokedex(request: Request):
     conn,cursor = connect_db()
     result = query_all(cursor)
     close_db(conn)
@@ -25,7 +26,7 @@ async def queryAll(request: Request):
 
 #By default it's a pokedex for 9th generation
 @app.get("/query", response_class=HTMLResponse)
-async def query(request: Request):
+async def Query_9th_Generation(request: Request):
     conn,cursor = connect_db()
     result = query_specific(cursor)
     close_db(conn)
@@ -40,7 +41,7 @@ async def query(request: Request):
 #if it is a Pokemon name or type name, please use ""
 #Example: /query/Name/"Pikachu"
 @app.get("/query/{cat}/{name}", response_class=HTMLResponse)
-async def query_custom(request:Request, cat: str, name:str):
+async def Customize_Query(request:Request, cat: str, name:str):
     conn,cursor = connect_db()
     result = query_specific(cursor,cat,name)
     close_db(conn)
@@ -53,7 +54,7 @@ async def query_custom(request:Request, cat: str, name:str):
 #apply sorting based on given category and rule (DESC or ASC) on previously fetched result
 #Example: /order_by/Attack/DESC
 @app.get("/order_by/{category}/{rule}", response_class=HTMLResponse)
-async def sort_order_by(request:Request, category: str, rule:str):
+async def Sort_Previous_Query_Result(request:Request, category: str, rule:str):
     conn,cursor = connect_db()
     result = order_by(cursor,CAT,NAME,category,rule)
     close_db(conn)
@@ -64,7 +65,7 @@ async def sort_order_by(request:Request, category: str, rule:str):
 #Example1: /filter/Name/Type1/""/""/""/""
 #Example2: /filter/Name/Type1/Total/Generation/""/""
 @app.get("/filter/{c1}/{c2}/{c3}/{c4}/{c5}/{c6}", response_class=HTMLResponse)
-async def filter(request:Request, c1: str, c2:str,c3:str, c4:str, c5:str, c6:str):
+async def Filter_Previous_Query_Result(request:Request, c1:str, c2:str,c3:str, c4:str, c5:str, c6:str):
     conn,cursor = connect_db()
     comma = ","
     str_lst_complete = [c1,c2,c3,c4,c5,c6]
