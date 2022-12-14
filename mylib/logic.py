@@ -1,5 +1,5 @@
 def query_all(cursor):
-    query = f"SELECT * from pokedex"
+    query = "SELECT * from pokedex"
     cursor.execute(query)
     result = cursor.fetchall()
     return result

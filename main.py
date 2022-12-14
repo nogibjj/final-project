@@ -1,10 +1,9 @@
 from fastapi import FastAPI, Request
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
-from typing import Union
 import uvicorn
 from mylib.logic import filter_by,query_all,query_specific,order_by
-from mylib.connectDB import *
+from mylib.connectDB import connect_db,close_db
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
