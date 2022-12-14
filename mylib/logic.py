@@ -1,4 +1,9 @@
-from connect_db import connect_db,close_db
+
+def query_all(cursor):
+    query = f"SELECT * from pokedex"
+    cursor.execute(query)
+    result = cursor.fetchall()
+    return result
 
 def query_specific(cursor,input_cat="Generation",input_name="9"):
     query = f"SELECT * from pokedex WHERE {input_cat}={input_name}"
@@ -6,12 +11,13 @@ def query_specific(cursor,input_cat="Generation",input_name="9"):
     result = cursor.fetchall()
     return result
 
-
-
-
-if __name__ == '__main__':
-    conn,cursor = connect_db()
-    result = query_specific(cursor)
-    print("Query 1 result")
-    print(result)
-    close_db(conn)
+def order_by(cursor,input_cat,input_name,order_cat,order_rule):
+    if input_cat == "":
+        query = f"SELECT * from pokedex ORDER BY {order_cat} {order_rule}"
+    else:
+        query = f"SELECT * from pokedex WHERE {input_cat}={input_name} ORDER BY {order_cat} {order_rule}"
+    print(query)
+    cursor.execute(query)
+    result = cursor.fetchall()
+    return result
+    
