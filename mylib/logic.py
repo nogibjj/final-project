@@ -4,13 +4,15 @@ def query_all(cursor):
     result = cursor.fetchall()
     return result
 
-def query_specific(cursor,input_cat="Generation",input_name="9"):
+
+def query_specific(cursor, input_cat="Generation", input_name="9"):
     query = f"SELECT * from pokedex WHERE {input_cat}={input_name}"
     cursor.execute(query)
     result = cursor.fetchall()
     return result
 
-def order_by(cursor,input_cat,input_name,order_cat,order_rule):
+
+def order_by(cursor, input_cat, input_name, order_cat, order_rule):
     if input_cat == "":
         query = f"SELECT * from pokedex ORDER BY {order_cat} {order_rule}"
     else:
@@ -19,7 +21,8 @@ def order_by(cursor,input_cat,input_name,order_cat,order_rule):
     result = cursor.fetchall()
     return result
 
-def filter_by(cursor,input_cat,input_name,filter_str):
+
+def filter_by(cursor, input_cat, input_name, filter_str):
     if input_cat == "":
         query = f"SELECT {filter_str} from pokedex"
     else:
